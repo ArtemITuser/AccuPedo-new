@@ -1,0 +1,1 @@
+3568d4db402a397267ece0bcce9eb94676caf23f40b47f997066ac0bf15fa08c  Stepper_Android13_Native_v1.2.2_build22.zip

@@ -1,3 +1,15 @@
+## [1.2.2] - 2026-11-03 (build 22, preview)
+
+### Fixed
+- Crash-on-launch: v1.2.1 hotfix removed the entire androidx.startup.InitializationProvider
+  from the merged manifest, breaking all auto-init libraries (emoji2/profileinstaller/
+  lifecycle-process) and causing an immediate new crash. The provider is now kept
+  (tools:node=merge); only WorkManagerInitializer meta-data and unused WorkManager
+  components are stripped. Zero androidx/work classes remain in DEX (binary verified).
+- App icon fully regenerated for ALL densities (mdpi..xxxhdpi): legacy square+round
+  mipmaps AND adaptive foreground/background layers, so every system surface
+  (launcher, settings "About" dialog, themed icons) shows the new icon.
+
 ## [1.2.1] - 2026-11-03
 ### Fixed
 - Crash-on-launch (release build): disabled R8 minification and added full keep-rules for androidx.startup / WorkManager / Room; stripped unused WorkManager components and InitializationProvider via manifest tools:node="remove".
