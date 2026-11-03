@@ -90,7 +90,8 @@ dependencies {
     // при явно включённой GPS-прогулке.
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    // kotlin-jvm plugin variant is required so `kotlin.test.Test` resolves to org.junit.Test on the JVM
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
