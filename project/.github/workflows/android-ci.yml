@@ -1,0 +1,78 @@
+name: Android CI
+
+# Временно активировано: запуск на любых пушах и PR (см. env.ACTIVATE_ALL).
+# Для возврата к точечной активации поменяйте ACTIVATE_ALL на "false" —
+# тогда триггеры будут срабатывать только на ветки release/*, main, master
+# и теги v*.
+on:
+  push:
+    branches: ["**"]
+    tags: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  ACTIVATE_ALL: "true" # временная широкая активация Actions
+
+concurrency:
+  group: android-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Assemble + Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', 'gradle.properties', 'settings.gradle.kts') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      - name: Unit tests
+        run: ./gradlew --no-daemon testDebugUnitTest
+
+      - name: Assemble Debug APK
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: stepper-debug-apk
+          path: project/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Assemble Release APK
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: stepper-release-apk
+          path: project/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error

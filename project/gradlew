@@ -2,8 +2,19 @@
 set -eu
 APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 if [ ! -f "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" ]; then
-  echo "Gradle wrapper JAR is missing. Bootstrapping..." >&2
-  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$APP_HOME/tools/bootstrap-gradle-wrapper.ps1"
+  # Linux/macOS: bootstrap через curl или wget (GitHub Actions friendly).
+  if command -v curl >/dev/null 2>&1; then
+    echo "Gradle wrapper JAR is missing. Bootstrapping via curl..." >&2
+    curl -fsSL -o "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" \
+      https://raw.githubusercontent.com/gradle/gradle/v9.7.0/gradle/wrapper/gradle-wrapper.jar
+  elif command -v wget >/dev/null 2>&1; then
+    echo "Gradle wrapper JAR is missing. Bootstrapping via wget..." >&2
+    wget -q -O "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" \
+      https://raw.githubusercontent.com/gradle/gradle/v9.7.0/gradle/wrapper/gradle-wrapper.jar
+  else
+    echo "Gradle wrapper JAR is missing. Bootstrapping via PowerShell..." >&2
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$APP_HOME/tools/bootstrap-gradle-wrapper.ps1"
+  fi
 fi
 if [ ! -f "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" ]; then
   echo "ERROR: gradle-wrapper.jar was not created." >&2

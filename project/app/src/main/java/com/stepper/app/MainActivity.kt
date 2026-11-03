@@ -150,7 +150,20 @@ class MainActivity : ComponentActivity() {
                 "Восстановление не применено: ${it.message ?: "неизвестная ошибка"}"
             }
         )
-        setContent { StepperTheme { StepperRoot(this, restoreMessage) } }
+        val appSettings = AppSettings(this)
+        var themeStyle by remember { mutableStateOf(appSettings.uiThemeStyle) }
+        setContent {
+            StepperTheme(style = themeStyle) {
+                StepperRoot(
+                    activity = this,
+                    startupMessage = restoreMessage,
+                    onThemeStyleChange = { style ->
+                        appSettings.uiThemeStyle = style
+                        themeStyle = AppSettings.normalizeThemeStyle(style)
+                    },
+                )
+            }
+        }
     }
 }
 
@@ -160,7 +173,11 @@ private data class PendingImport(
 )
 
 @Composable
-private fun StepperRoot(activity: ComponentActivity, startupMessage: String? = null) {
+private fun StepperRoot(
+    activity: ComponentActivity,
+    startupMessage: String? = null,
+    onThemeStyleChange: (String) -> Unit = {},
+) {
     val db = remember { StepperDb(activity) }
     val settings = remember { AppSettings(activity) }
     val health = remember { HealthConnectManager(activity) }
@@ -767,6 +784,8 @@ private fun StepperRoot(activity: ComponentActivity, startupMessage: String? = n
                     onRefresh = { refreshKey++ }
                 )
                 4 -> SettingsScreen(
+                    uiThemeStyle = settings.uiThemeStyle,
+                    onUiThemeStyle = onThemeStyleChange,
                     tracking = tracking,
                     goal = settings.dailyGoal,
                     stepLength = settings.stepLengthMeters,
@@ -1312,6 +1331,8 @@ private data class BatteryUiState(
 
 @Composable
 private fun SettingsScreen(
+    uiThemeStyle: String,
+    onUiThemeStyle: (String) -> Unit,
     tracking: Boolean,
     goal: Long,
     stepLength: Double,
@@ -1354,6 +1375,35 @@ private fun SettingsScreen(
         item {
             Spacer(Modifier.height(8.dp))
             Text("Настройки", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        }
+        item {
+            Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceContainer) {
+                Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Стиль интерфейса", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Text(
+                        "Material Expressive — динамические цвета Android и выразительные формы. Fluent (WinUI) — палитра и скругления в стиле Windows 11.",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp
+                    )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        FilterChip(
+                            selected = uiThemeStyle == "material",
+                            onClick = { onUiThemeStyle("material") },
+                            label = { Text("Material") }
+                        )
+                        FilterChip(
+                            selected = uiThemeStyle == "fluent",
+                            onClick = { onUiThemeStyle("fluent") },
+                            label = { Text("Fluent") }
+                        )
+                        FilterChip(
+                            selected = uiThemeStyle == "system",
+                            onClick = { onUiThemeStyle("system") },
+                            label = { Text("System") }
+                        )
+                    }
+                }
+            }
         }
         item {
             Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surfaceContainer) {
