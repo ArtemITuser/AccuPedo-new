@@ -1,0 +1,44 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:compileDebugKotlin
+e: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:134:18 Functions which invoke @Composable functions must be marked with the @Composable annotation
+e: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:154:27 @Composable invocations can only happen from the context of a @Composable function
+e: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:713:13 This material API is experimental and is likely to change or to be removed in the future.
+e: file:///workspace/project/app/src/main/java/com/stepper/app/data/AppSettings.kt:32:58 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'String?'.
+e: file:///workspace/project/app/src/main/java/com/stepper/app/data/StepperDb.kt:303:25 Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>' & 'Serializable']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.
+e: file:///workspace/project/app/src/main/java/com/stepper/app/data/StepperDb.kt:420:37 Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>' & 'Serializable']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.
+e: file:///workspace/project/app/src/main/java/com/stepper/app/data/StepperDb.kt:861:13 Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>' & 'Serializable']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.
+e: file:///workspace/project/app/src/main/java/com/stepper/app/widget/StepperWidget.kt:51:26 Functions which invoke @Composable functions must be marked with the @Composable annotation
+e: file:///workspace/project/app/src/main/java/com/stepper/app/widget/StepperWidget.kt:64:30 @Composable invocations can only happen from the context of a @Composable function
+
+> Task :app:compileDebugKotlin FAILED
+w: Detected multiple Kotlin daemon sessions at 
+
+[Incubating] Problems report is available at: file:///workspace/project/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: COMPOSABLE_EXPECTED
+       Kotlin compiler error
+         Functions which invoke @Composable functions must be marked with the @Composable annotation
+         Location: /workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt line 134
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 4s
+7 actionable tasks: 1 executed, 6 up-to-date

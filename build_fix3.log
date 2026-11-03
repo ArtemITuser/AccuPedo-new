@@ -1,0 +1,91 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:compileDebugKotlin
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:658:88 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:715:44 'fun centerAlignedTopAppBarColors(containerColor: Color = ..., scrolledContainerColor: Color = ..., navigationIconContentColor: Color = ..., titleContentColor: Color = ..., actionIconContentColor: Color = ...): TopAppBarColors' is deprecated. Use topAppBarColors instead.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:721:48 'val Icons.Filled.DirectionsWalk: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.DirectionsWalk.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1100:89 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1134:85 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1143:82 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1301:151 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1307:114 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1502:91 'val Icons.Filled.DirectionsWalk: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.DirectionsWalk.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1638:71 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1639:100 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1640:70 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1659:63 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1661:63 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1662:62 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1663:75 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/MainActivity.kt:1664:63 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/diagnostics/AppErrorCenter.kt:126:64 Java type mismatch: inferred type is 'Nothing?', but 'String' was expected.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/diagnostics/AppErrorCenter.kt:220:64 Java type mismatch: inferred type is 'Nothing?', but 'String' was expected.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/service/StepTrackingService.kt:387:33 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/service/StepTrackingService.kt:390:33 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/widget/StepperWidget.kt:112:67 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///workspace/project/app/src/main/java/com/stepper/app/widget/StepperWidget.kt:113:71 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+
+> Task :app:compileDebugJavaWithJavac
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:processDebugJavaRes
+
+> Task :app:compileDebugUnitTestKotlin
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:18:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:23:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:28:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:34:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:40:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:19:6 Unresolved reference 'Test'.
+
+> Task :app:compileDebugUnitTestKotlin FAILED
+
+[Incubating] Problems report is available at: file:///workspace/project/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugUnitTestKotlin' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: UNRESOLVED_IMPORT
+       Kotlin compiler error
+         Unresolved reference 'Test'.
+         Location: /workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt line 3
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2m 1s
+24 actionable tasks: 6 executed, 18 up-to-date

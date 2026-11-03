@@ -1,0 +1,94 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:compileDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:bundleDebugClassesToRuntimeJar UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:generateDebugGlobalSynthetics UP-TO-DATE
+> Task :app:mergeDebugJavaResource
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+
+> Task :app:compileDebugUnitTestKotlin
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:18:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:23:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:28:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:34:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:40:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:19:6 Unresolved reference 'Test'.
+
+> Task :app:compileDebugUnitTestKotlin FAILED
+> Task :app:mergeExtDexDebug
+
+The message received from the daemon indicates that the daemon has disappeared.
+Build request sent: Build{id=2e5b4c5b-61df-4636-a0cd-30bc6dac4fa5, currentDir=/workspace/project}
+Attempting to read last messages from the daemon log...
+Daemon pid: 5606
+  log file: /root/.gradle/daemon/9.7.0/daemon-5606.out.log
+----- Last 20 lines from daemon log file - daemon-5606.out.log -----
+2026-11-03T10:12:12.257+0000 [DEBUG] [org.gradle.launcher.daemon.server.exec.RequestStopIfSingleUsedDaemon] Requesting daemon stop after processing Build{id=2e5b4c5b-61df-4636-a0cd-30bc6dac4fa5, currentDir=/workspace/project}
+2026-11-03T10:12:12.257+0000 [LIFECYCLE] [org.gradle.launcher.daemon.server.DaemonStateCoordinator] Daemon will be stopped at the end of the build 
+2026-11-03T10:12:12.257+0000 [DEBUG] [org.gradle.launcher.daemon.server.DaemonStateCoordinator] Stop as soon as idle requested. The daemon is busy
+2026-11-03T10:12:12.257+0000 [DEBUG] [org.gradle.launcher.daemon.server.DaemonStateCoordinator] daemon stop has been requested. Sleeping until state changes.
+2026-11-03T10:12:12.260+0000 [DEBUG] [org.gradle.launcher.daemon.server.exec.ExecuteBuild] The daemon has started executing the build.
+2026-11-03T10:12:12.261+0000 [DEBUG] [org.gradle.launcher.daemon.server.exec.ExecuteBuild] Executing build with daemon context: DefaultDaemonContext[uid=2acb9895-255f-4c7a-9393-55e62ba8d574,javaHome=/usr/lib/jvm/java-17-openjdk-amd64,javaVersion=17,javaVendor=Debian,daemonRegistryDir=/root/.gradle/daemon,pid=5606,idleTimeout=120000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx1400m,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:18:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:23:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:28:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:34:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/data/StepMathTest.kt:40:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/importer/AccupedoImporterTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:3:20 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:8:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:13:6 Unresolved reference 'Test'.
+e: file:///workspace/project/app/src/test/java/com/stepper/app/location/LocationMathTest.kt:19:6 Unresolved reference 'Test'.----- End of the daemon log -----
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
