@@ -22,20 +22,29 @@
         android:supportsRtl="true">
 
         <!--
-          v1.2.1 crash-on-launch fix (defensive): the app does NOT use WorkManager,
-          but transitive library manifests can merge androidx.startup.InitializationProvider
-          and WorkManager's FrameworkInitializer/JobService into the APK. Under R8
-          minification their reflective Room/WorkDatabase instantiation crashed at provider
-          creation (java.lang.RuntimeException: Unable to get provider
-          androidx.startup.InitializationProvider ... Failed to create an instance of
-          androidx.work.impl.WorkDatabase). We remove them at manifest-merge time so they
-          are never instantiated.
+          v1.2.2 crash-on-launch fix (correct root-cause treatment):
+          The previous hotfix removed the WHOLE androidx.startup.InitializationProvider
+          from the merged manifest. That broke every downstream auto-init library that
+          registers initializers via startup metadata (emoji2 text-service preload,
+          profileinstaller baseline profiles, lifecycle-process) — the app then crashed
+          immediately after launch instead of fixing anything.
+
+          Correct approach: KEEP InitializationProvider, but strip ONLY WorkManager's
+          initializer metadata (the actual source of the "Failed to create an instance
+          of androidx.work.impl.WorkDatabase" crash) plus WorkManager components.
+          Combined with the dependency-level exclusion of androidx.work in
+          app/build.gradle.kts and isMinifyEnabled=false, no reflective Room/Work
+          path remains.
         -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            tools:node="remove" />
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                tools:node="remove" />
+        </provider>
 
         <service
             android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
