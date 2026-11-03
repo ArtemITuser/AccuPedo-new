@@ -24,6 +24,7 @@ import androidx.glance.layout.padding
 import androidx.glance.layout.width
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,49 +64,53 @@ class StepperWidget : GlanceAppWidget() {
         val progress = (steps.toDouble() / settings.dailyGoal).coerceIn(0.0, 1.0)
 
         provideContent {
-            val size = LocalSize.current
-            val large = size.width >= 200.dp
-            val tall = size.height >= 95.dp
-            val background = R.color.widget_background
-            Box(GlanceModifier.fillMaxSize().background(background).padding(if (large) 16.dp else 12.dp)) {
-                when {
-                    !tall -> Column(verticalAlignment = Alignment.Vertical.CenterVertically) {
-                        Text("${formatNumber(steps)} шагов", style = TextStyle(fontSize = 18.sp))
-                        Text(formatDistance(distanceKm), style = TextStyle(fontSize = 12.sp))
-                    }
-                    large && tall -> Column {
-                        Row(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.Vertical.CenterVertically) {
-                            Column(modifier = GlanceModifier.defaultWeight()) {
-                                Text("Шагомер", style = TextStyle(fontSize = 15.sp))
-                                Spacer(GlanceModifier.height(3.dp))
-                                Text("${formatNumber(steps)}", style = TextStyle(fontSize = 27.sp))
-                                Text("шагов", style = TextStyle(fontSize = 12.sp))
+            @Composable
+            fun WidgetContent() {
+                val size = LocalSize.current
+                val large = size.width >= 200.dp
+                val tall = size.height >= 95.dp
+                val background = R.color.widget_background
+                Box(GlanceModifier.fillMaxSize().background(background).padding(if (large) 16.dp else 12.dp)) {
+                    when {
+                        !tall -> Column(verticalAlignment = Alignment.Vertical.CenterVertically) {
+                            Text("${formatNumber(steps)} шагов", style = TextStyle(fontSize = 18.sp))
+                            Text(formatDistance(distanceKm), style = TextStyle(fontSize = 12.sp))
+                        }
+                        large && tall -> Column {
+                            Row(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.Vertical.CenterVertically) {
+                                Column(modifier = GlanceModifier.defaultWeight()) {
+                                    Text("Шагомер", style = TextStyle(fontSize = 15.sp))
+                                    Spacer(GlanceModifier.height(3.dp))
+                                    Text("${formatNumber(steps)}", style = TextStyle(fontSize = 27.sp))
+                                    Text("шагов", style = TextStyle(fontSize = 12.sp))
+                                }
+                                Column(horizontalAlignment = Alignment.Horizontal.End) {
+                                    Text(formatDistance(distanceKm), style = TextStyle(fontSize = 14.sp))
+                                    Text("${(progress * 100).toInt()}%", style = TextStyle(fontSize = 12.sp))
+                                }
                             }
-                            Column(horizontalAlignment = Alignment.Horizontal.End) {
-                                Text(formatDistance(distanceKm), style = TextStyle(fontSize = 14.sp))
-                                Text("${(progress * 100).toInt()}%", style = TextStyle(fontSize = 12.sp))
+                            if (size.height >= 160.dp) {
+                                Spacer(GlanceModifier.height(10.dp))
+                                Row(modifier = GlanceModifier.fillMaxWidth()) {
+                                    Text("${formatNumber(settings.dailyGoal)} цель", style = TextStyle(fontSize = 12.sp))
+                                    Spacer(GlanceModifier.width(12.dp))
+                                    Text("$activeMinutes мин", style = TextStyle(fontSize = 12.sp))
+                                    Spacer(GlanceModifier.width(12.dp))
+                                    Text("${calories.toInt()} ккал", style = TextStyle(fontSize = 12.sp))
+                                }
                             }
                         }
-                        if (size.height >= 160.dp) {
-                            Spacer(GlanceModifier.height(10.dp))
-                            Row(modifier = GlanceModifier.fillMaxWidth()) {
-                                Text("${formatNumber(settings.dailyGoal)} цель", style = TextStyle(fontSize = 12.sp))
-                                Spacer(GlanceModifier.width(12.dp))
-                                Text("$activeMinutes мин", style = TextStyle(fontSize = 12.sp))
-                                Spacer(GlanceModifier.width(12.dp))
-                                Text("${calories.toInt()} ккал", style = TextStyle(fontSize = 12.sp))
-                            }
+                        else -> Column {
+                            Text("Шагомер", style = TextStyle(fontSize = 15.sp))
+                            Spacer(GlanceModifier.height(4.dp))
+                            Text("${formatNumber(steps)} шагов", style = TextStyle(fontSize = 21.sp))
+                            Spacer(GlanceModifier.height(3.dp))
+                            Text("${formatDistance(distanceKm)} · ${(progress * 100).toInt()}%", style = TextStyle(fontSize = 13.sp))
                         }
-                    }
-                    else -> Column {
-                        Text("Шагомер", style = TextStyle(fontSize = 15.sp))
-                        Spacer(GlanceModifier.height(4.dp))
-                        Text("${formatNumber(steps)} шагов", style = TextStyle(fontSize = 21.sp))
-                        Spacer(GlanceModifier.height(3.dp))
-                        Text("${formatDistance(distanceKm)} · ${(progress * 100).toInt()}%", style = TextStyle(fontSize = 13.sp))
                     }
                 }
             }
+            WidgetContent()
         }
     }
 
