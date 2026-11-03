@@ -1,0 +1,11 @@
+android-sdk/
+cmdtools.zip
+gradle-9.7.0-bin.zip
+repo.xml
+build*.log
+nohup.out
+sdk_install.log
+release_info.json
+groups2.xml
+__pycache__/
+*.pyc

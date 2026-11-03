@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Шагомер</string>
+    <string name="channel_tracking">Подсчёт шагов</string>
+    <string name="tracking_notification">Шагомер работает в фоне</string>
+</resources>
