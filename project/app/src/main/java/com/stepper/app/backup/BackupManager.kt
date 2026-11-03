@@ -420,6 +420,7 @@ class BackupManager(private val context: Context) {
             return output.toByteArray()
         }
 
+        @JvmName("copyBoundedToStream")
         fun InputStream.copyBoundedTo(output: OutputStream, maxBytes: Long): Long =
             copyBoundedTo(this, output, maxBytes)
 

@@ -29,7 +29,7 @@ class AppSettings(context: Context) {
      * "fluent" (Fluent-палитра в стиле Fluent UI / WinUI) или "system" (как в Material 3 по умолчанию).
      */
     var uiThemeStyle: String
-        get() = prefs.getString(KEY_UI_THEME, "material").orDefault("material")
+        get() = prefs.getString(KEY_UI_THEME, "material")?.takeIf { it.isNotBlank() } ?: "material"
         set(value) = prefs.edit().putString(KEY_UI_THEME, normalizeThemeStyle(value)).apply()
 
     private fun String.orDefault(fallback: String): String = if (isNullOrBlank()) fallback else this

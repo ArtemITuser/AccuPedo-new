@@ -51,6 +51,8 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
+        // CenterAlignedTopAppBar и ряд Material3-композитов помечены как экспериментальные.
+        optIn.add("androidx.compose.material3.ExperimentalMaterial3Api")
     }
 }
 
@@ -83,6 +85,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

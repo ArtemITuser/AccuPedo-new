@@ -300,7 +300,7 @@ class StepperDb(context: Context) : SQLiteOpenHelper(context.applicationContext,
                     db.execSQL(
                         "INSERT INTO hourly_summary(local_date, hour, steps) VALUES(?, ?, 1) " +
                             "ON CONFLICT(local_date, hour) DO UPDATE SET steps = steps + 1",
-                        arrayOf(sample.localDate.toString(), sample.wallClockUtc.atZone(ZoneId.of(sample.timezoneId)).hour)
+                        arrayOf<String>(sample.localDate.toString(), sample.wallClockUtc.atZone(ZoneId.of(sample.timezoneId)).hour.toString())
                     )
                     rebuildCanonicalDayLocked(db, sample.localDate, goal, sample.timezoneId)
                     true
@@ -417,7 +417,7 @@ class StepperDb(context: Context) : SQLiteOpenHelper(context.applicationContext,
                                 db.execSQL(
                                     "INSERT INTO hourly_summary(local_date, hour, steps) VALUES(?, ?, ?) " +
                                         "ON CONFLICT(local_date, hour) DO UPDATE SET steps = steps + excluded.steps",
-                                    arrayOf(sample.localDate.toString(), sample.wallClockUtc.atZone(ZoneId.of(sample.timezoneId)).hour, delta)
+                                    arrayOf<String>(sample.localDate.toString(), sample.wallClockUtc.atZone(ZoneId.of(sample.timezoneId)).hour.toString(), delta.toString())
                                 )
                                 rebuildCanonicalDayLocked(db, sample.localDate, goal, sample.timezoneId)
                             } else {
@@ -858,7 +858,7 @@ class StepperDb(context: Context) : SQLiteOpenHelper(context.applicationContext,
     fun updateGoalForAllDays(goal: Long) {
         writableDatabase.execSQL(
             "UPDATE daily_summary SET goal_steps = ?, goal_reached = CASE WHEN steps >= ? THEN 1 ELSE 0 END, updated_utc = ?",
-            arrayOf(goal, goal, Instant.now().toString())
+            arrayOf<String>(goal.toString(), goal.toString(), Instant.now().toString())
         )
     }
 

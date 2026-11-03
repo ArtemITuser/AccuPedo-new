@@ -151,8 +151,8 @@ class MainActivity : ComponentActivity() {
             }
         )
         val appSettings = AppSettings(this)
-        var themeStyle by remember { mutableStateOf(appSettings.uiThemeStyle) }
         setContent {
+            var themeStyle by remember { mutableStateOf(appSettings.uiThemeStyle) }
             StepperTheme(style = themeStyle) {
                 StepperRoot(
                     activity = this,

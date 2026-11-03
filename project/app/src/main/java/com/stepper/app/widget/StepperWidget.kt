@@ -61,9 +61,9 @@ class StepperWidget : GlanceAppWidget() {
         val calories = day?.caloriesKcal ?: 0.0
         val activeMinutes = (day?.activeSeconds ?: 0L) / 60L
         val progress = (steps.toDouble() / settings.dailyGoal).coerceIn(0.0, 1.0)
-        val size = LocalSize.current
 
         provideContent {
+            val size = LocalSize.current
             val large = size.width >= 200.dp
             val tall = size.height >= 95.dp
             val background = R.color.widget_background
