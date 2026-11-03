@@ -39,12 +39,16 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Install Android SDK components (platform 37 + build-tools)
+      - name: Install Android SDK components (platform 37.0 + build-tools 37.0.0)
         run: |
+          # Проверено по актуальному repo23.xml (SDK repository):
+          #   платформы: android-36, android-36.1, android-37.0, android-37.1, android-37.2
+          #   build-tools: 36.0.0, 36.1.0, 37.0.0
+          # Пакета "platforms;android-37" НЕ существует — нужен "android-37.0".
           sdk_root=/usr/local/lib/android/sdk
           export ANDROID_HOME="$sdk_root"
           yes | "$sdk_root/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
-          "$sdk_root/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37" "build-tools;36.0.0" "platform-tools"
+          "$sdk_root/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.0" "build-tools;37.0.0" "platform-tools"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
