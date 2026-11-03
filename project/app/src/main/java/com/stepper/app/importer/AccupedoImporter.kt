@@ -11,6 +11,35 @@ import java.util.Locale
 
 /** Импортер CSV Accupedo: формат из выгруженного файла Accupedo. */
 object AccupedoCsvImporter {
+    /**
+     * Разбор строки RFC-4180 CSV с поддержкой кавычек и экранирования `""`.
+     * Требуется, потому что Accupedo экспортирует дробные значения с локальной
+     * запятой (например `2026,8,10,15488,"11,80",461,2:24`) — наивный split(',')
+     * разрезал бы такое поле пополам и терял строки.
+     */
+    private fun splitCsvLine(line: String): List<String> {
+        val fields = mutableListOf<String>()
+        val sb = StringBuilder()
+        var inQuotes = false
+        var i = 0
+        while (i < line.length) {
+            val c = line[i]
+            when {
+                inQuotes -> when {
+                    c == '"' && i + 1 < line.length && line[i + 1] == '"' -> { sb.append('"'); i++ }
+                    c == '"' -> inQuotes = false
+                    else -> sb.append(c)
+                }
+                c == '"' -> inQuotes = true
+                c == ',' -> { fields += sb.toString(); sb.setLength(0) }
+                else -> sb.append(c)
+            }
+            i++
+        }
+        fields += sb.toString()
+        return fields
+    }
+
     fun import(input: InputStream): ImportSummary {
         val days = mutableListOf<ImportedDay>()
         val warnings = mutableListOf<String>()
@@ -20,7 +49,7 @@ object AccupedoCsvImporter {
                 val lineNo = index + 1
                 if (raw.isBlank()) return@forEachIndexed
                 rows++
-                val p = raw.split(',')
+                val p = splitCsvLine(raw)
                 if (p.size != 8) {
                     warnings += "Строка $lineNo: ожидалось 8 полей, получено ${p.size}."
                     return@forEachIndexed
@@ -30,9 +59,14 @@ object AccupedoCsvImporter {
                     val month = p[1].trim().toInt()
                     val day = p[2].trim().toInt()
                     val steps = p[3].trim().toLong()
-                    val km = p[4].trim().replace(',', '.').toDouble() + p[5].trim().replace(',', '.').toDouble() / 100.0
-                    val calories = p[6].trim().replace(',', '.').toDouble()
-                    val duration = p[7].trim().split(':')
+                    // distance_integer + distance_fraction/100 (см. docs/IMPORT_ACCUPEDO.md): `11,80` -> 11.80 км.
+                    // Совмещённое дробное поле ("11,80") и разделённые целое/дробь ("11","80") трактуются одинаково.
+                    val distField = p[4].trim().replace(',', '.')
+                    val km = if ('.' in distField) distField.toDouble()
+                             else distField.toDouble() + p[5].trim().toDouble() / 100.0
+                    var idx = if ('.' in distField) 5 else 6
+                    val calories = p[idx++].trim().replace(',', '.').toDouble()
+                    val duration = p[idx].trim().split(':')
                     if (duration.size != 2) error("неверное время активности")
                     val activeSeconds = duration[0].toLong() * 3600 + duration[1].toLong() * 60
                     require(steps >= 0) { "отрицательное число шагов" }
@@ -46,7 +80,7 @@ object AccupedoCsvImporter {
                 }
             }
         }
-        return ImportSummary("accupedo.csv", rows, days.size, warnings, days)
+        return ImportSummary("accupedo.csv", rows, rows - warnings.size, warnings, days)
     }
 }
 
