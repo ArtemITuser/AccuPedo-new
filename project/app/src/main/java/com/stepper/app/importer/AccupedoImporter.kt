@@ -49,24 +49,29 @@ object AccupedoCsvImporter {
                 val lineNo = index + 1
                 if (raw.isBlank()) return@forEachIndexed
                 rows++
-                val p = splitCsvLine(raw)
-                if (p.size != 8) {
-                    warnings += "Строка $lineNo: ожидалось 8 полей, получено ${p.size}."
+                // Кавычки присутствуют -> RFC-4180 парсер; иначе — простой split с recovery ниже.
+                val quoted = raw.contains('"')
+                var fields = (if (quoted) splitCsvLine(raw) else raw.split(',')).map { it.trim() }
+                // Формат без кавычек с десятичной запятой: `2026, 8, 10, 15488, 11,80, 461, 2:24`
+                // (8 или 9 полей из-за пробелов/без) — сливаем поля целого и дроби расстояния в одно.
+                if (!quoted && (fields.size == 8 || fields.size == 9) &&
+                    fields[4].toLongOrNull() != null && fields[5].matches(Regex("\\d{1,2}"))) {
+                    fields = fields.subList(0, 4) + listOf("${fields[4]}.${fields[5]}") + fields.subList(6, fields.size)
+                }
+                if (fields.size != 7) {
+                    warnings += "Строка $lineNo: ожидалось 7 полей, получено ${fields.size}."
                     return@forEachIndexed
                 }
                 try {
-                    val year = p[0].trim().toInt()
-                    val month = p[1].trim().toInt()
-                    val day = p[2].trim().toInt()
-                    val steps = p[3].trim().toLong()
+                    val year = fields[0].toInt()
+                    val month = fields[1].toInt()
+                    val day = fields[2].toInt()
+                    val steps = fields[3].toLong()
                     // distance_integer + distance_fraction/100 (см. docs/IMPORT_ACCUPEDO.md): `11,80` -> 11.80 км.
-                    // Совмещённое дробное поле ("11,80") и разделённые целое/дробь ("11","80") трактуются одинаково.
-                    val distField = p[4].trim().replace(',', '.')
-                    val km = if ('.' in distField) distField.toDouble()
-                             else distField.toDouble() + p[5].trim().toDouble() / 100.0
-                    var idx = if ('.' in distField) 5 else 6
-                    val calories = p[idx++].trim().replace(',', '.').toDouble()
-                    val duration = p[idx].trim().split(':')
+                    val distField = fields[4].replace(',', '.')
+                    val km = distField.toDouble()
+                    val calories = fields[5].replace(',', '.').toDouble()
+                    val duration = fields[6].split(':')
                     if (duration.size != 2) error("неверное время активности")
                     val activeSeconds = duration[0].toLong() * 3600 + duration[1].toLong() * 60
                     require(steps >= 0) { "отрицательное число шагов" }
