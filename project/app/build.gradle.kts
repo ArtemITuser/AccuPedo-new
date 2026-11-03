@@ -51,6 +51,14 @@ android {
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
+
+    // v1.2.1: the app uses neither WorkManager nor Room directly, but transitive
+    // library manifests merge their components into the APK; at runtime their
+    // reflective init crashed under R8 (WorkDatabase crash-on-launch). Strip them.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 
@@ -99,4 +107,11 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+
+// v1.2.1 crash fix: exclude unused androidx.work + androidx.startup from the graph.
+configurations.configureEach {
+    exclude(group = "androidx.work", module = "work-runtime")
+    exclude(group = "androidx.startup", module = "startup-runtime")
 }
