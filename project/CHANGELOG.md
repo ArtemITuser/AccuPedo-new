@@ -1,3 +1,10 @@
+## [1.2.1] - 2026-11-03
+### Fixed
+- Crash-on-launch (release build): disabled R8 minification and added full keep-rules for androidx.startup / WorkManager / Room; stripped unused WorkManager components and InitializationProvider via manifest tools:node="remove".
+
+### Changed
+- App icon replaced with downloaded artwork: full mipmap PNG set (square + round), adaptive foreground/background layers for all densities, monochrome layer for themed icons.
+
 # Changelog
 
 ## 1.2.0 (build 20) — preview: CI, Fluent UI / Material Expressive, импортёр Accupedo

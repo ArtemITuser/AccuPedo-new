@@ -1,6 +1,6 @@
 # Шагомер — Android 13+
 
-**Версия:** 1.2.0 (build 20, preview)
+**Версия:** 1.2.1 (build 21, preview)
 **Предыдущий релиз:** 1.1.1-b19-preview (SHA-256 архива: `d64964ba75a160cbe66026029889908213dcf3757619cf9af1cadec16c22b055`)
 **minSdk:** 33 (Android 13)
 **compileSdk:** 37 (Android 17)
@@ -32,6 +32,15 @@ Workflow `.github/workflows/android-ci.yml` временно активиров�
 Зелёный прогон подтверждён на ветке `feature/fluent-ui-ci` (коммит `d3dbbba`, run #8). Для отключения повременной активации установите `ACTIVATE_ALL: "false"`.
 
 ## Что нового в 1.2.0-preview
+
+### 1.2.1 (build 21) — hotfix: crash-on-launch + new icon
+
+- **FIXED: приложение вылетало сразу после запуска** (`RuntimeException: Unable to get provider androidx.startup.InitializationProvider -> Failed to create an instance of androidx.work.impl.WorkDatabase`). Подтверждён диагноз: агрессивная оптимизация R8 (`minifyEnabled=true` в release) ломала рефлексию цепочки androidx.startup -> WorkManager -> Room WorkDatabase (обфусцированный класс `ho` в caused-by). Исправлено тремя слоями защиты:
+  1. `isMinifyEnabled = false` для release — немедленный горячий фикс;
+  2. полные keep-правила для androidx.startup / androidx.work / androidx.room / Health Connect в `proguard-rules.pro` — подготовка к будущему повторному включению minify;
+  3. `tools:node="remove"` в манифесте для `InitializationProvider` и всех сервисов/ресиверов WorkManager — они не используются приложением и больше никогда не будут созданы даже при попадании в merged manifest.
+- **НОВАЯ ИКОНКА**: заменена на загруженную (m.media-amazon.com/images/I/418hY1ycvGL.png): полный набор mipmap-PNG (mdpi…xxxhdpi, square+round), слои адаптивной иконки (foreground/background PNG во все плотности), monochrome-слой для themed icons Android 13+. Старые векторные заготовки удалены.
+
 
 - **Fluent UI + Material Expressive**: переключаемый стиль интерфейса в Настройках («Стиль интерфейса»: Material / Fluent / System), выбор сохраняется в `AppSettings.uiThemeStyle` и включён в экспорт/импорт настроек.
 - **Импортёр Accupedo CSV**: корректный RFC-4180 парсер с поддержкой кавычек и экранирования `""`; унифицированная семантика расстояния (`integer + fraction/100`); поддержка legacy-формата без кавычек; добавлены регрессионные тесты.

@@ -17,8 +17,8 @@ android {
         minSdk = 33
         // Целевая версия — Android 15+ (API 36), обновлено с 35.
         targetSdk = 36
-        versionCode = 20
-        versionName = "1.2.0"
+        versionCode = 21
+        versionName = "1.2.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
     }
@@ -30,7 +30,11 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            // v1.2.1: minifyEnabled=false — crash-on-launch hotfix.
+            // R8 full-mode stripped/reflected entities of androidx.startup ->
+            // WorkManager WorkDatabase (see proguard-rules.pro history).
+            // Re-enable together with verified keep-rules after a device soak test.
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -19,6 +20,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Stepper"
         android:supportsRtl="true">
+
+        <!--
+          v1.2.1 crash-on-launch fix (defensive): the app does NOT use WorkManager,
+          but transitive library manifests can merge androidx.startup.InitializationProvider
+          and WorkManager's FrameworkInitializer/JobService into the APK. Under R8
+          minification their reflective Room/WorkDatabase instantiation crashed at provider
+          creation (java.lang.RuntimeException: Unable to get provider
+          androidx.startup.InitializationProvider ... Failed to create an instance of
+          androidx.work.impl.WorkDatabase). We remove them at manifest-merge time so they
+          are never instantiated.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="remove" />
+
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            tools:node="remove" />
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            tools:node="remove" />
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            tools:node="remove" />
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+            tools:node="remove" />
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+            tools:node="remove" />
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+            tools:node="remove" />
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+            tools:node="remove" />
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+            tools:node="remove" />
 
         <activity
             android:name=".MainActivity"
