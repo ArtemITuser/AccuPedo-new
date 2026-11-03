@@ -7,11 +7,15 @@ plugins {
 
 android {
     namespace = "com.stepper.app"
+    // Android 17 (API 37) — платформенный пакет публикуется как android-37.0/37.1/37.2,
+    // целого "android-37" в SDK-менеджере нет.
     compileSdk = 37
+    compileSdkExtension = 0
 
     defaultConfig {
         applicationId = "com.stepper.app"
         minSdk = 33
+        // Целевая версия — Android 15+ (API 36), обновлено с 35.
         targetSdk = 36
         versionCode = 19
         versionName = "1.1.1"
