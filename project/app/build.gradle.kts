@@ -17,8 +17,8 @@ android {
         minSdk = 33
         // Целевая версия — Android 15+ (API 36), обновлено с 35.
         targetSdk = 36
-        versionCode = 19
-        versionName = "1.1.1"
+        versionCode = 20
+        versionName = "1.2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
     }

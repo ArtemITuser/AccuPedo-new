@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased — CI + UI-темы (Fluent / Material Expressive)
+## 1.2.0 (build 20) — preview: CI, Fluent UI / Material Expressive, импортёр Accupedo
 
+- Выпущен как **v1.2.0-b20-preview**; versionCode 20, versionName 1.2.0.
 - Добавлен GitHub Actions workflow `.github/workflows/android-ci.yml`: временно активирован
   на все пуши/PR (`env.ACTIVATE_ALL: "true"`); содержит unit-тесты, assembleDebug/assembleRelease
-  и загрузку APK артефактами.
+  и загрузку APK артефактами. Зелёный прогон подтверждён (run #8, коммит `d3dbbba`).
 - `gradlew` теперь бутстрапит отсутствующий `gradle-wrapper.jar` через curl/wget на Linux/macOS
   (PowerShell остаётся запасным вариантом для Windows). Wrapper JAR закоммичен в репозиторий.
 - Внедрён переключаемый стиль интерфейса (Настройки → «Стиль интерфейса»):
@@ -15,6 +16,12 @@
   - **System** — стандартная схема Material 3 без динамических цветов.
 - Выбор стиля сохраняется в `AppSettings.uiThemeStyle`, включён в JSON-экспорт/импорт настроек.
 - Тема прокидывается через `CompositionLocalProvider` (`LocalUiThemeStyle`, `LocalIsFluentStyle`).
+- Импортёр Accupedo CSV: корректный RFC-4180 парсер (кавычки, экранирование `""`), унифицированная
+  семантика расстояния (`integer + fraction/100` согласно docs/IMPORT_ACCUPEDO.md), поддержка
+  legacy-формата без кавычек; добавлены регрессионные тесты обоих форматов.
+- Обновлён тулчейн: AGP 9.3.1 → 9.5.0, Kotlin/Compose plugin 2.4.20 → 2.4.21,
+  Compose BOM 2026.08.00 → 2026.09.00, Glance 1.2.0; targetSdk 36 (Android 15+), compileSdk 37
+  (платформенный пакет `platforms;android-37.0`).
 
 ## 1.1.1 (build 19) — Stable architecture and data safety
 

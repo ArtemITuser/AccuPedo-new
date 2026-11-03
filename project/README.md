@@ -1,25 +1,42 @@
 # Шагомер — Android 13+
 
-**Версия:** 1.1.1
-**Build:** 19
-**minSdk:** 33
-**compileSdk:** 37
-**targetSdk:** 36
+**Версия:** 1.2.0 (build 20, preview)
+**Предыдущий релиз:** 1.1.1-b19-preview (SHA-256 архива: `d64964ba75a160cbe66026029889908213dcf3757619cf9af1cadec16c22b055`)
+**minSdk:** 33 (Android 13)
+**compileSdk:** 37 (Android 17)
+**targetSdk:** 36 (Android 15+)
 **ABI приоритет:** arm64-v8a
 
 ## Стек
 
-- Kotlin 2.4.20
-- Android Gradle Plugin 9.3.1
+- Kotlin / Compose Compiler plugin 2.4.21
+- Android Gradle Plugin 9.5.0
 - Gradle Wrapper 9.7.0
 - JDK 17
-- Jetpack Compose 1.12 / BOM 2026.08.00
-- Material 3 1.4.x через BOM
-- Glance 1.2.0
+- Jetpack Compose BOM 2026.09.00
+- Material 3 + Material Expressive (динамические цвета Monet, выразительные формы)
+- Fluent UI / WinUI тема (акценты Windows 11, скругления 4dp) — переключаемый стиль интерфейса
+- Glance 1.2.0 (виджет шагомера)
 - Health Connect 1.1.0
-- Android SDK Platform 37
+- Android SDK Platform 37 (пакет публикуется как `platforms;android-37.0`)
 
-Kotlin 2.4.20 имеет полную совместимость с AGP до 9.3.1 и Gradle до 9.7.0; AGP 9.3 поддерживает API 37 и требует JDK 17. Compose 1.12/BOM 2026.08.00 требует compileSdk 37.
+AGP 9.5 требует JDK 17 и поддерживает compileSdk 37; Compose BOM 2026.09.00 соответствует Kotlin 2.4.21. Целевая версия Android 15+ (API 36) обеспечивает соответствие политикам Google Play 2026.
+
+## CI / GitHub Actions
+
+Workflow `.github/workflows/android-ci.yml` временно активирован на все пуши/PR (`env.ACTIVATE_ALL: "true"`) и выполняет:
+- `:app:testDebugUnitTest` (unit-тесты, включая регрессионные тесты импортёра Accupedo CSV);
+- `:app:assembleDebug` и `:app:assembleRelease`;
+- загрузку APK как артефактов (`stepper-debug-apk`, `stepper-release-apk`).
+
+Зелёный прогон подтверждён на ветке `feature/fluent-ui-ci` (коммит `d3dbbba`, run #8). Для отключения повременной активации установите `ACTIVATE_ALL: "false"`.
+
+## Что нового в 1.2.0-preview
+
+- **Fluent UI + Material Expressive**: переключаемый стиль интерфейса в Настройках («Стиль интерфейса»: Material / Fluent / System), выбор сохраняется в `AppSettings.uiThemeStyle` и включён в экспорт/импорт настроек.
+- **Импортёр Accupedo CSV**: корректный RFC-4180 парсер с поддержкой кавычек и экранирования `""`; унифицированная семантика расстояния (`integer + fraction/100`); поддержка legacy-формата без кавычек; добавлены регрессионные тесты.
+- **Обновление тулчейна**: AGP 9.3.1 → 9.5.0, Kotlin 2.4.20 → 2.4.21, Compose BOM 2026.08.00 → 2026.09.00; targetSdk 36 (Android 15+).
+- **CI**: GitHub Actions workflow с unit-тестами и сборкой debug/release APK; bootstrap отсутствующего `gradle-wrapper.jar` на Linux/macOS.
 
 ## Сборка
 
