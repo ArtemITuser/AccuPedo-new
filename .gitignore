@@ -1,1 +1,16 @@
+# Logs and temp artifacts — never push
 *.log
+nohup.out
+cmdtools.zip
+gradle-9.7.0-bin.zip
+Stepper_v1.1.1_b19.zip
+repo.xml
+groups2.xml
+release_info.json
+android-sdk/
+
+# Gradle build outputs
+project/.gradle/
+project/.kotlin/
+project/build/
+project/app/build/
